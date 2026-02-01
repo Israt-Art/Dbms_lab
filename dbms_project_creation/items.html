@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Menu | Food Express</title>
+    <link rel="stylesheet" href="items_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <aside class="side-menu">
+            <div class="logo"><i class="fa-solid fa-utensils"></i></div>
+            <nav>
+                <a href="user_dashboard.html"><i class="fa-solid fa-house"></i></a>
+                <a href="#" class="active"><i class="fa-solid fa-list"></i></a>
+                <a href="#"><i class="fa-solid fa-clock-rotate-left"></i></a>
+                <a href="#"><i class="fa-solid fa-gear"></i></a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="menu-header">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Search for your favorite food..." onkeyup="filterItems()">
+                </div>
+                <div class="cart-trigger" onclick="toggleCart()">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="cart-count" id="cartCountBadge">0</span>
+                </div>
+            </header>
+
+            <section class="menu-section">
+                <div class="section-top">
+                    <h2>Our Signature Menu</h2>
+                    <div class="filter-pills">
+                        <span class="pill active">All</span>
+                        <span class="pill">Fast Food</span>
+                        <span class="pill">Healthy</span>
+                        <span class="pill">Drinks</span>
+                    </div>
+                </div>
+
+                <div class="items-grid" id="foodGrid">
+                </div>
+            </section>
+        </main>
+
+        <div id="cartSidebar" class="cart-sidebar">
+            <div class="cart-header">
+                <h3>My Order</h3>
+                <i class="fa-solid fa-xmark" onclick="toggleCart()" style="cursor:pointer"></i>
+            </div>
+            <div class="cart-items-list" id="cartItems">
+                <p class="empty-msg">Your cart is empty</p>
+            </div>
+            <div class="cart-footer">
+                <div class="total-row">
+                    <span>Total Amount:</span>
+                    <span id="cartTotal">0 TK</span>
+                </div>
+                <button class="checkout-btn" onclick="processCheckout()">Checkout Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Item Data
+        const menuItems = [
+            { id: 1, name: 'Cheesy Pizza', price: 550, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' },
+            { id: 2, name: 'Beef Burger', price: 320, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400' },
+            { id: 3, name: 'Pasta Carbonara', price: 450, img: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400' },
+            { id: 4, name: 'Iced Caramel Latte', price: 180, img: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400' },
+            { id: 5, name: 'Fresh Salad', price: 240, img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400' },
+            { id: 6, name: 'Sushi Set', price: 1200, img: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400' },
+            { id: 7, name: 'Chicken Tacos', price: 290, img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400' },
+            { id: 8, name: 'Ribeye Steak', price: 1850, img: 'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=400' },
+            { id: 9, name: 'Choco Donut', price: 120, img: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400' },
+            { id: 10, name: 'Chicken Shawarma', price: 180, img: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400' },
+            { id: 11, name: 'French Fries XL', price: 150, img: 'https://images.unsplash.com/photo-1512152272829-e3139592d56f?w=400' },
+            { id: 12, name: 'Grilled BBQ', price: 950, img: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400' }
+        ];
+
+        let cart = [];
+
+        // Load Items into Grid
+        function loadItems(itemsToDisplay = menuItems) {
+            const grid = document.getElementById('foodGrid');
+            grid.innerHTML = itemsToDisplay.map(item => `
+                <div class="item-card">
+                    <img src="${item.img}" alt="${item.name}">
+                    <div class="item-details">
+                        <h4>${item.name}</h4>
+                        <div class="price-row">
+                            <span class="price">${item.price} TK</span>
+                            <button class="add-btn" onclick="addToCart(${item.id})">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // SEARCH BAR LOGIC
+        function filterItems() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = menuItems.filter(item => 
+                item.name.toLowerCase().includes(query)
+            );
+            loadItems(filtered);
+        }
+
+        // Add to Cart Logic
+        function addToCart(id) {
+            const item = menuItems.find(i => i.id === id);
+            cart.push(item);
+            updateCartUI();
+            
+            const sidebar = document.getElementById('cartSidebar');
+            if(!sidebar.classList.contains('open')) sidebar.classList.add('open');
+        }
+
+        // Update Sidebar UI
+        function updateCartUI() {
+            document.getElementById('cartCountBadge').innerText = cart.length;
+            const cartItemsDiv = document.getElementById('cartItems');
+            const totalDiv = document.getElementById('cartTotal');
+            
+            if(cart.length === 0) {
+                cartItemsDiv.innerHTML = '<p class="empty-msg">Your cart is empty</p>';
+                totalDiv.innerText = '0 TK';
+                return;
+            }
+
+            cartItemsDiv.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <img src="${item.img}" width="50" height="50" style="border-radius:8px; object-fit:cover;">
+                    <div style="flex:1; margin-left:10px;">
+                        <p style="font-weight:600; font-size:14px; margin:0;">${item.name}</p>
+                        <small style="color:#d12026">${item.price} TK</small>
+                    </div>
+                    <i class="fa-solid fa-trash-can" onclick="removeFromCart(${index})" style="color:#999; cursor:pointer"></i>
+                </div>
+            `).join('');
+
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            totalDiv.innerText = total + ' TK';
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function toggleCart() {
+            document.getElementById('cartSidebar').classList.toggle('open');
+        }
+
+        function processCheckout() {
+            if (cart.length === 0) {
+                alert("Please add items to your cart first!");
+                return;
+            }
+            localStorage.setItem('userCart', JSON.stringify(cart));
+            window.location.href = "checkout.html";
+        }
+
+        window.onload = () => loadItems();
+    </script>
+</body>
+</html>

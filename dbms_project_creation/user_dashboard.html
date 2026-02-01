@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Dashboard | Food Express</title>
+    <link rel="stylesheet" href="user_dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="brand">
+                <i class="fa-solid fa-bowl-food"></i>
+                <span>Food Express</span>
+            </div>
+            <ul class="nav-links">
+                <li class="active">
+                    <a href="#"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
+                </li>
+                <li>
+                    <a href="items.html"><i class="fa-solid fa-utensils"></i><span>Manage Menu</span></a>
+                </li>
+                <li>
+                    <a href="heart.html"><i class="fa-solid fa-heart"></i><span>Reviews</span></a>
+                </li>
+                <li>
+                    <a href="wallet.html"><i class="fa-solid fa-wallet"></i><span>Revenue</span></a>
+                </li>
+                <li class="logout">
+                    <a href="homepage.html"><i class="fa-solid fa-power-off"></i><span>Logout</span></a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="content">
+            <header class="top-header">
+                <div class="greeting">
+                    <h1>Good Evening, <span class="user-name">Israt!</span></h1>
+                    <p>What are you craving today?</p>
+                </div>
+                <div class="header-right">
+                    <div class="search-bar-dash">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="foodSearch" placeholder="Search food items..." onkeyup="filterFood()">
+                    </div>
+                    <div class="points-badge"><i class="fa-solid fa-star"></i> 250 Points</div>
+                    <div class="profile-pic">
+                        <img src="https://ui-avatars.com/api/?name=User&background=1a2a6c&color=fff" alt="Profile">
+                    </div>
+                </div>
+            </header>
+
+            <div class="category-scroll">
+                <div class="cat-item active" onclick="filterCategory('all')"><i class="fa-solid fa-border-all"></i> All Items</div>
+                <div class="cat-item" onclick="filterCategory('Pizza')"><i class="fa-solid fa-pizza-slice"></i> Pizza</div>
+                <div class="cat-item" onclick="filterCategory('Burger')"><i class="fa-solid fa-burger"></i> Burger</div>
+                <div class="cat-item" onclick="filterCategory('Desserts')"><i class="fa-solid fa-ice-cream"></i> Desserts</div>
+                <div class="cat-item" onclick="filterCategory('Coffee')"><i class="fa-solid fa-mug-hot"></i> Coffee</div>
+                <div class="cat-item" onclick="filterCategory('Biryani')"><i class="fa-solid fa-bowl-rice"></i> Biryani</div>
+            </div>
+
+            <div class="elegant-banner">
+                <div class="banner-content">
+                    <h2>Welcome Back to <br>Food Express!</h2>
+                    <p>Discover the best meals in town.</p>
+                </div>
+                <div class="banner-circle"></div>
+            </div>
+
+            <section class="recommendations">
+                <div class="section-title">
+                    <h2>Recommended for You</h2>
+                    <a href="#">See All</a>
+                </div>
+                
+                <div class="food-grid" id="foodGrid"></div>
+            </section>
+
+            <footer class="dash-footer">
+                <p>&copy; 2026 Food System | All Rights Reserved</p>
+                <div class="footer-links-dash">
+                    <a href="#">Support</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms</a>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // All 12 items restored
+        const foodItems = [
+            {name: 'Cheesy Pizza', price: '550 TK', category: 'Pizza', img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400'},
+            {name: 'Beef Burger', price: '320 TK', category: 'Burger', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400'},
+            {name: 'Pasta Carbonara', price: '450 TK', category: 'All', img: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400'},
+            {name: 'Iced Caramel Latte', price: '180 TK', category: 'Coffee', img: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400'},
+            {name: 'Fresh Salad', price: '240 TK', category: 'All', img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400'},
+            {name: 'Sushi Pack', price: '1200 TK', category: 'All', img: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400'},
+            {name: 'Chicken Tacos', price: '290 TK', category: 'All', img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400'},
+            {name: 'Ribeye Steak', price: '1850 TK', category: 'All', img: 'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=400'},
+            {name: 'Chocolate Donut', price: '120 TK', category: 'Desserts', img: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400'},
+            {name: 'Chicken Shawarma', price: '180 TK', category: 'All', img: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400'},
+            {name: 'French Fries XL', price: '150 TK', category: 'All', img: 'https://images.unsplash.com/photo-1512152272829-e3139592d56f?w=400'},
+            {name: 'Grilled BBQ', price: '950 TK', category: 'All', img: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400'}
+        ];
+
+        function renderFood(itemsToDisplay) {
+            const grid = document.getElementById('foodGrid');
+            grid.innerHTML = itemsToDisplay.map(item => `
+                <div class="food-card">
+                    <img src="${item.img}" alt="${item.name}">
+                    <div class="food-info">
+                        <h4 class="food-name">${item.name}</h4>
+                        <p class="price">${item.price}</p>
+                        <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Active Search
+        function filterFood() {
+            const searchTerm = document.getElementById('foodSearch').value.toLowerCase();
+            const filtered = foodItems.filter(item => 
+                item.name.toLowerCase().includes(searchTerm)
+            );
+            renderFood(filtered);
+        }
+
+        // Category Filter
+        function filterCategory(cat) {
+            document.querySelectorAll('.cat-item').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            if(cat === 'all') {
+                renderFood(foodItems);
+            } else {
+                const filtered = foodItems.filter(item => item.category === cat);
+                renderFood(filtered);
+            }
+        }
+
+        window.onload = () => renderFood(foodItems);
+    </script>
+</body>
+</html>

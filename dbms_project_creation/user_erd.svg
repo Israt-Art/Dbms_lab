@@ -1,0 +1,218 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="601pt" height="596pt" viewBox="0.00 0.00 601.00 596.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 592.43)">
+<title>ER</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-592.43 597.23,-592.43 597.23,4 -4,4"/>
+<!-- User -->
+<g id="node1" class="node">
+<title>User</title>
+<polygon fill="none" stroke="black" points="197.14,-363.5 143.14,-363.5 143.14,-327.5 197.14,-327.5 197.14,-363.5"/>
+<text xml:space="preserve" text-anchor="middle" x="170.14" y="-341.3" font-family="Helvetica,Arial,sans-serif" font-size="14.00">User</text>
+</g>
+<!-- u_name -->
+<g id="node6" class="node">
+<title>u_name</title>
+<ellipse fill="none" stroke="black" cx="50.18" cy="-411.21" rx="50.18" ry="18"/>
+<text xml:space="preserve" text-anchor="start" x="21.81" y="-408.01" font-family="Helvetica,Arial,sans-serif" text-decoration="underline" font-size="14.00">Username</text>
+</g>
+<!-- User&#45;&#45;u_name -->
+<g id="edge1" class="edge">
+<title>User--u_name</title>
+<path fill="none" stroke="black" d="M142.92,-360.41C123.57,-371.01 97.65,-385.21 78.13,-395.9"/>
+</g>
+<!-- u_points -->
+<g id="node7" class="node">
+<title>u_points</title>
+<ellipse fill="none" stroke="black" cx="75.8" cy="-277.29" rx="67.63" ry="18"/>
+<text xml:space="preserve" text-anchor="middle" x="75.8" y="-273.09" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Reward Points</text>
+</g>
+<!-- User&#45;&#45;u_points -->
+<g id="edge2" class="edge">
+<title>User--u_points</title>
+<path fill="none" stroke="black" d="M144.86,-327.22C130.78,-317.04 113.35,-304.44 99.53,-294.45"/>
+</g>
+<!-- u_status -->
+<g id="node8" class="node">
+<title>u_status</title>
+<ellipse fill="none" stroke="black" cx="339.02" cy="-423.68" rx="34.65" ry="18"/>
+<text xml:space="preserve" text-anchor="middle" x="339.02" y="-419.48" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Status</text>
+</g>
+<!-- User&#45;&#45;u_status -->
+<g id="edge3" class="edge">
+<title>User--u_status</title>
+<path fill="none" stroke="black" d="M197.28,-358.06C229.07,-372.78 281.39,-397 312.79,-411.54"/>
+</g>
+<!-- places -->
+<g id="node16" class="node">
+<title>places</title>
+<polygon fill="none" stroke="black" points="209.32,-284.16 158.82,-266.16 209.32,-248.16 259.82,-266.16 209.32,-284.16"/>
+<text xml:space="preserve" text-anchor="middle" x="209.32" y="-261.96" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Places</text>
+</g>
+<!-- User&#45;&#45;places -->
+<g id="edge11" class="edge">
+<title>User--places</title>
+<path fill="none" stroke="black" d="M179.23,-327.1C186.01,-313.37 195.18,-294.81 201.6,-281.79"/>
+<text xml:space="preserve" text-anchor="middle" x="186.92" y="-308.64" font-family="Helvetica,Arial,sans-serif" font-size="14.00">1</text>
+</g>
+<!-- provides -->
+<g id="node18" class="node">
+<title>provides</title>
+<polygon fill="none" stroke="black" points="166.95,-454.61 103.54,-436.61 166.95,-418.61 230.36,-436.61 166.95,-454.61"/>
+<text xml:space="preserve" text-anchor="middle" x="166.95" y="-432.41" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Provides</text>
+</g>
+<!-- User&#45;&#45;provides -->
+<g id="edge13" class="edge">
+<title>User--provides</title>
+<path fill="none" stroke="black" d="M169.5,-363.94C168.94,-379.85 168.14,-402.7 167.58,-418.51"/>
+<text xml:space="preserve" text-anchor="middle" x="165.04" y="-395.43" font-family="Helvetica,Arial,sans-serif" font-size="14.00">1</text>
+</g>
+<!-- Order -->
+<g id="node2" class="node">
+<title>Order</title>
+<polygon fill="none" stroke="black" points="263.54,-199.6 209.54,-199.6 209.54,-163.6 263.54,-163.6 263.54,-199.6"/>
+<text xml:space="preserve" text-anchor="middle" x="236.54" y="-177.4" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Order</text>
+</g>
+<!-- o_id -->
+<g id="node9" class="node">
+<title>o_id</title>
+<ellipse fill="none" stroke="black" cx="71.22" cy="-103.01" rx="43.75" ry="18"/>
+<text xml:space="preserve" text-anchor="start" x="47.51" y="-99.81" font-family="Helvetica,Arial,sans-serif" text-decoration="underline" font-size="14.00">OrderID</text>
+</g>
+<!-- Order&#45;&#45;o_id -->
+<g id="edge4" class="edge">
+<title>Order--o_id</title>
+<path fill="none" stroke="black" d="M209.24,-168.62C179.16,-154.32 130.98,-131.41 100.23,-116.8"/>
+</g>
+<!-- o_status -->
+<g id="node10" class="node">
+<title>o_status</title>
+<ellipse fill="none" stroke="black" cx="365.99" cy="-292.53" rx="34.65" ry="18"/>
+<text xml:space="preserve" text-anchor="middle" x="365.99" y="-288.33" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Status</text>
+</g>
+<!-- Order&#45;&#45;o_status -->
+<g id="edge5" class="edge">
+<title>Order--o_status</title>
+<path fill="none" stroke="black" d="M257.92,-199.92C283.05,-221.45 324.32,-256.82 347.92,-277.05"/>
+</g>
+<!-- o_total -->
+<g id="node11" class="node">
+<title>o_total</title>
+<ellipse fill="none" stroke="black" cx="188.29" cy="-40.54" rx="46.7" ry="18"/>
+<text xml:space="preserve" text-anchor="middle" x="188.29" y="-36.34" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Total TK</text>
+</g>
+<!-- Order&#45;&#45;o_total -->
+<g id="edge6" class="edge">
+<title>Order--o_total</title>
+<path fill="none" stroke="black" d="M230.23,-163.16C220.94,-135.97 203.66,-85.47 194.45,-58.54"/>
+</g>
+<!-- contains -->
+<g id="node17" class="node">
+<title>contains</title>
+<polygon fill="none" stroke="black" points="326.17,-162.48 262,-144.48 326.17,-126.48 390.34,-144.48 326.17,-162.48"/>
+<text xml:space="preserve" text-anchor="middle" x="326.17" y="-140.28" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Contains</text>
+</g>
+<!-- Order&#45;&#45;contains -->
+<g id="edge15" class="edge">
+<title>Order--contains</title>
+<path fill="none" stroke="black" d="M263.92,-170.26C275.25,-165.57 288.33,-160.15 299.57,-155.49"/>
+<text xml:space="preserve" text-anchor="middle" x="278.25" y="-167.08" font-family="Helvetica,Arial,sans-serif" font-size="14.00">1</text>
+</g>
+<!-- MenuItem -->
+<g id="node3" class="node">
+<title>MenuItem</title>
+<polygon fill="none" stroke="black" points="440.41,-120.79 366.1,-120.79 366.1,-84.79 440.41,-84.79 440.41,-120.79"/>
+<text xml:space="preserve" text-anchor="middle" x="403.26" y="-98.59" font-family="Helvetica,Arial,sans-serif" font-size="14.00">MenuItem</text>
+</g>
+<!-- m_name -->
+<g id="node12" class="node">
+<title>m_name</title>
+<ellipse fill="none" stroke="black" cx="325.31" cy="-18" rx="54.21" ry="18"/>
+<text xml:space="preserve" text-anchor="middle" x="325.31" y="-13.8" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Item Name</text>
+</g>
+<!-- MenuItem&#45;&#45;m_name -->
+<g id="edge7" class="edge">
+<title>MenuItem--m_name</title>
+<path fill="none" stroke="black" d="M386.34,-84.39C373,-69.88 354.51,-49.77 341.39,-35.49"/>
+</g>
+<!-- m_price -->
+<g id="node13" class="node">
+<title>m_price</title>
+<ellipse fill="none" stroke="black" cx="519.32" cy="-28.5" rx="52.6" ry="18"/>
+<text xml:space="preserve" text-anchor="middle" x="519.32" y="-24.3" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Price (TK)</text>
+</g>
+<!-- MenuItem&#45;&#45;m_price -->
+<g id="edge8" class="edge">
+<title>MenuItem--m_price</title>
+<path fill="none" stroke="black" d="M431.95,-84.42C451.01,-72.22 475.81,-56.35 494.11,-44.63"/>
+</g>
+<!-- Review -->
+<g id="node4" class="node">
+<title>Review</title>
+<polygon fill="none" stroke="black" points="203.71,-525.08 144.94,-525.08 144.94,-489.08 203.71,-489.08 203.71,-525.08"/>
+<text xml:space="preserve" text-anchor="middle" x="174.32" y="-502.88" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Review</text>
+</g>
+<!-- r_rating -->
+<g id="node14" class="node">
+<title>r_rating</title>
+<ellipse fill="none" stroke="black" cx="368.85" cy="-570.43" rx="36.79" ry="18"/>
+<text xml:space="preserve" text-anchor="middle" x="368.85" y="-566.23" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Rating</text>
+</g>
+<!-- Review&#45;&#45;r_rating -->
+<g id="edge9" class="edge">
+<title>Review--r_rating</title>
+<path fill="none" stroke="black" d="M203.87,-516.7C240.01,-528.47 300.9,-548.3 337.74,-560.3"/>
+</g>
+<!-- r_text -->
+<g id="node15" class="node">
+<title>r_text</title>
+<ellipse fill="none" stroke="black" cx="72.63" cy="-563.43" rx="48.04" ry="18"/>
+<text xml:space="preserve" text-anchor="middle" x="72.63" y="-559.23" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Feedback</text>
+</g>
+<!-- Review&#45;&#45;r_text -->
+<g id="edge10" class="edge">
+<title>Review--r_text</title>
+<path fill="none" stroke="black" d="M144.64,-523.53C130.57,-531.33 113.87,-540.58 100.09,-548.21"/>
+</g>
+<!-- Category -->
+<g id="node5" class="node">
+<title>Category</title>
+<polygon fill="none" stroke="black" points="593.23,-374.01 525.91,-374.01 525.91,-338.01 593.23,-338.01 593.23,-374.01"/>
+<text xml:space="preserve" text-anchor="middle" x="559.57" y="-351.81" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Category</text>
+</g>
+<!-- belongs_to -->
+<g id="node19" class="node">
+<title>belongs_to</title>
+<polygon fill="none" stroke="black" points="475.43,-216.34 396.48,-198.34 475.43,-180.34 554.39,-198.34 475.43,-216.34"/>
+<text xml:space="preserve" text-anchor="middle" x="475.43" y="-194.14" font-family="Helvetica,Arial,sans-serif" font-size="14.00">Belongs To</text>
+</g>
+<!-- Category&#45;&#45;belongs_to -->
+<g id="edge17" class="edge">
+<title>Category--belongs_to</title>
+<path fill="none" stroke="black" d="M549.75,-337.62C533.19,-306.58 499.97,-244.33 484.17,-214.71"/>
+<text xml:space="preserve" text-anchor="middle" x="513.46" y="-280.36" font-family="Helvetica,Arial,sans-serif" font-size="14.00">1</text>
+</g>
+<!-- places&#45;&#45;Order -->
+<g id="edge12" class="edge">
+<title>places--Order</title>
+<path fill="none" stroke="black" d="M214.57,-249.86C219.17,-235.56 225.86,-214.78 230.65,-199.91"/>
+<text xml:space="preserve" text-anchor="middle" x="217.55" y="-229.08" font-family="Helvetica,Arial,sans-serif" font-size="14.00">N</text>
+</g>
+<!-- contains&#45;&#45;MenuItem -->
+<g id="edge16" class="edge">
+<title>contains--MenuItem</title>
+<path fill="none" stroke="black" d="M348.47,-132.42C354.96,-128.91 362.2,-124.99 369.24,-121.18"/>
+<text xml:space="preserve" text-anchor="middle" x="353.8" y="-114.2" font-family="Helvetica,Arial,sans-serif" font-size="14.00">N</text>
+</g>
+<!-- provides&#45;&#45;Review -->
+<g id="edge14" class="edge">
+<title>provides--Review</title>
+<path fill="none" stroke="black" d="M168.81,-454.39C169.92,-464.99 171.32,-478.41 172.44,-489.06"/>
+<text xml:space="preserve" text-anchor="middle" x="165.57" y="-475.93" font-family="Helvetica,Arial,sans-serif" font-size="14.00">N</text>
+</g>
+<!-- belongs_to&#45;&#45;MenuItem -->
+<g id="edge18" class="edge">
+<title>belongs_to--MenuItem</title>
+<path fill="none" stroke="black" d="M463.52,-182.56C450.78,-165.7 430.62,-139.01 417.17,-121.21"/>
+<text xml:space="preserve" text-anchor="middle" x="435.29" y="-156.08" font-family="Helvetica,Arial,sans-serif" font-size="14.00">N</text>
+</g>
+</g>
+</svg>

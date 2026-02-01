@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Food Express</title>
+    <link rel="stylesheet" href="checkout_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="checkout-container">
+        <header class="checkout-header">
+            <a href="items.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Menu</a>
+            <h1>Complete Your Order</h1>
+        </header>
+
+        <div class="checkout-layout">
+            <div class="checkout-main">
+                <section class="checkout-section">
+                    <h3><i class="fa-solid fa-location-dot"></i> Delivery Address</h3>
+                    <div class="input-group">
+                        <input type="text" id="userName" placeholder="Full Name" required>
+                        <input type="text" id="userPhone" placeholder="Phone Number" required>
+                        <textarea id="userAddress" placeholder="Full Delivery Address"></textarea>
+                    </div>
+                </section>
+
+                <section class="payment-method-section">
+                    <h3><i class="fa-solid fa-credit-card"></i> Payment Method</h3>
+                    <div class="payment-selection">
+                        <label class="pay-card active" id="card-cod" onclick="selectPayment('cod')">
+                            <input type="radio" name="payment" value="Cash on Delivery" checked>
+                            <div class="pay-info">
+                                <div class="icon-circle"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                                <div class="text-wrapper"><span class="pay-title">Cash on Delivery</span></div>
+                            </div>
+                        </label>
+                        <label class="pay-card" id="card-mobile" onclick="selectPayment('mobile')">
+                            <input type="radio" name="payment" value="bKash / Nagad">
+                            <div class="pay-info">
+                                <div class="icon-circle"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                                <div class="text-wrapper"><span class="pay-title">bKash / Nagad</span></div>
+                            </div>
+                        </label>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="order-summary">
+                <h3>Order Summary</h3>
+                <div id="summaryItems" class="summary-list"></div>
+                <div class="cost-breakdown">
+                    <div class="cost-row"><span>Subtotal</span><span id="subtotal">0 TK</span></div>
+                    <div class="cost-row"><span>Delivery Fee</span><span>60 TK</span></div>
+                    <hr>
+                    <div class="cost-row total"><span>Total Payable</span><span id="finalTotal">0 TK</span></div>
+                </div>
+                <button class="place-order-btn" onclick="confirmOrder()">Confirm Order</button>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        const cart = JSON.parse(localStorage.getItem('userCart')) || [];
+        
+        function loadSummary() {
+            const container = document.getElementById('summaryItems');
+            let subtotal = 0;
+            container.innerHTML = cart.map(item => {
+                subtotal += item.price;
+                return `<div class="summary-item"><span>${item.name}</span><span>${item.price} TK</span></div>`;
+            }).join('');
+            document.getElementById('subtotal').innerText = subtotal + ' TK';
+            document.getElementById('finalTotal').innerText = (subtotal + 60) + ' TK';
+        }
+
+        function selectPayment(method) {
+            document.querySelectorAll('.pay-card').forEach(c => c.classList.remove('active'));
+            document.getElementById('card-' + method).classList.add('active');
+            const radio = document.getElementById('card-' + method).querySelector('input');
+            radio.checked = true;
+        }
+
+        function confirmOrder() {
+    const name = document.getElementById('userName').value;
+    const phone = document.getElementById('userPhone').value;
+    const address = document.getElementById('userAddress').value;
+    const totalStr = document.getElementById('finalTotal').innerText;
+    const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+
+    if (!name || !phone || !address) {
+        alert("Please fill in delivery details.");
+        return;
+    }
+
+    const totalAmount = parseInt(totalStr.replace(/[^0-9]/g, ""));
+    const orderId = "#" + Math.floor(1000 + Math.random() * 9000);
+
+    // 1. CREATE ORDER FOR ADMIN & LIVE ORDERS
+    const newOrder = {
+        id: orderId,
+        customer: name,
+        items: cart.map(i => i.name).join(", "),
+        totalValue: totalAmount,
+        payment: paymentMethod,
+        status: "Processing",
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+
+    const history = JSON.parse(localStorage.getItem('orderHistory')) || [];
+    history.push(newOrder);
+    localStorage.setItem('orderHistory', JSON.stringify(history));
+
+    // 2. UPDATE CUSTOMER DIRECTORY (FIX FOR customers.html)
+    const customerList = JSON.parse(localStorage.getItem('registeredCustomers')) || [];
+    const existingCust = customerList.find(c => c.name === name);
+
+    if (existingCust) {
+        existingCust.orders += 1; // Increase order count if they exist
+    } else {
+        // Add as a brand new customer
+        customerList.push({
+            name: name,
+            email: phone, // Using phone as contact
+            date: new Date().toLocaleDateString('en-GB'),
+            orders: 1,
+            status: "Active"
+        });
+    }
+    localStorage.setItem('registeredCustomers', JSON.stringify(customerList));
+
+    alert("Thank you, " + name + "! Your order " + orderId + " has been placed.");
+    localStorage.removeItem('userCart'); 
+    window.location.href = "user_dashboard.html";
+}
+        window.onload = loadSummary;
+    </script>
+</body>
+</html>

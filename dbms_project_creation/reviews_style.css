@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #f8fafc;
+}
+
+.admin-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styling - Consistent with your Dashboard */
+.admin-sidebar {
+    width: 260px;
+    background: #1e3a8a;
+    color: white;
+    padding: 25px 0;
+    position: fixed;
+    height: 100%;
+}
+
+.admin-profile {
+    padding: 0 25px 30px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.admin-sidebar nav a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #cbd5e1;
+    text-decoration: none;
+    padding: 15px 25px;
+}
+
+.admin-sidebar nav a.active {
+    background: #2563eb;
+    color: white;
+}
+
+/* Main Content Area */
+.admin-main {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+    padding: 40px;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.avg-rating-pill {
+    background: #fef9c3;
+    color: #854d0e;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Reviews Grid */
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 25px;
+}
+
+.review-card {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+}
+
+.review-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.user-meta {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.user-initials {
+    width: 45px;
+    height: 45px;
+    background: #e2e8f0;
+    color: #1e3a8a;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+}
+
+.user-meta h4 { font-size: 16px; color: #1e293b; }
+.user-meta p { font-size: 12px; color: #94a3b8; }
+
+.stars { color: #facc15; font-size: 14px; }
+
+.review-content {
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.review-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 15px;
+}
+
+.tag {
+    background: #eff6ff;
+    color: #2563eb;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.reply-btn {
+    background: none;
+    border: none;
+    color: #64748b;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.reply-btn:hover { color: #2563eb; }
+
+.logout { color: #fca5a5 !important; }
+.nav-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 20px 0; }

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews & Ratings | Food Express</title>
+    <link rel="stylesheet" href="heart.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Added a small style to handle the initial circles instead of photos */
+        .user-initial-circle {
+            width: 45px;
+            height: 45px;
+            background: #d12026;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-right: 12px;
+        }
+        .user-info { display: flex; align-items: center; }
+    </style>
+</head>
+<body>
+
+    <div class="reviews-container">
+        <header class="reviews-header">
+            <a href="user_dashboard.html" class="back-link"><i class="fa-solid fa-arrow-left"></i></a>
+            <h1>Customer Reviews</h1>
+        </header>
+
+        <section class="rating-summary">
+            <div class="big-rating">
+                <h2 id="avgRatingText">4.8</h2>
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <p>Based on community feedback</p>
+            </div>
+            <div class="rating-bars">
+                <div class="bar-row"><span>5 <i class="fa-solid fa-star"></i></span> <div class="bar"><div class="fill" style="width: 85%"></div></div></div>
+                <div class="bar-row"><span>4 <i class="fa-solid fa-star"></i></span> <div class="bar"><div class="fill" style="width: 10%"></div></div></div>
+                <div class="bar-row"><span>3 <i class="fa-solid fa-star"></i></span> <div class="bar"><div class="fill" style="width: 3%"></div></div></div>
+                <div class="bar-row"><span>2 <i class="fa-solid fa-star"></i></span> <div class="bar"><div class="fill" style="width: 1%"></div></div></div>
+                <div class="bar-row"><span>1 <i class="fa-solid fa-star"></i></span> <div class="bar"><div class="fill" style="width: 1%"></div></div></div>
+            </div>
+        </section>
+
+        <section class="review-feed">
+            <h3>Recent Feedback</h3>
+            <div id="reviewList">
+                </div>
+        </section>
+
+        <button class="write-review-btn" onclick="openModal()">Write a Review</button>
+    </div>
+
+    <div id="reviewModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Submit Your Review</h2>
+            <div class="rating-input">
+                <p>Tap to Rate:</p>
+                <div class="star-selector">
+                    <i class="fa-solid fa-star" data-value="1" onclick="setRating(1)"></i>
+                    <i class="fa-solid fa-star" data-value="2" onclick="setRating(2)"></i>
+                    <i class="fa-solid fa-star" data-value="3" onclick="setRating(3)"></i>
+                    <i class="fa-solid fa-star" data-value="4" onclick="setRating(4)"></i>
+                    <i class="fa-solid fa-star" data-value="5" onclick="setRating(5)"></i>
+                </div>
+            </div>
+            <textarea id="reviewText" placeholder="How was the food and service?"></textarea>
+            <button class="submit-review-btn" onclick="submitReview()">Post Review Now</button>
+        </div>
+    </div>
+
+    <script>
+        let selectedRating = 0;
+
+        function openModal() { document.getElementById('reviewModal').style.display = "block"; }
+        function closeModal() { document.getElementById('reviewModal').style.display = "none"; }
+
+        function setRating(n) {
+            selectedRating = n;
+            const stars = document.querySelectorAll('.star-selector i');
+            stars.forEach((star, index) => {
+                star.classList.toggle('active', index < n);
+            });
+        }
+
+        function loadReviews() {
+            const list = document.getElementById('reviewList');
+            const allReviews = JSON.parse(localStorage.getItem('communityReviews')) || [];
+            
+            list.innerHTML = allReviews.map(rev => `
+                <div class="review-card">
+                    <div class="user-info">
+                        <div class="user-initial-circle">${rev.initials}</div>
+                        <div><strong>${rev.name}</strong><span>${rev.date}</span></div>
+                        <div class="user-stars" style="margin-left:auto">${rev.rating}.0 <i class="fa-solid fa-star"></i></div>
+                    </div>
+                    <p style="margin-top:10px;">"${rev.comment}"</p>
+                </div>
+            `).join('') + `
+                <div class="review-card">
+                    <div class="user-info">
+                        <div class="user-initial-circle" style="background:#4a148c">MM</div>
+                        <div><strong>Myesha Marium</strong><span>2 days ago</span></div>
+                        <div class="user-stars" style="margin-left:auto">5.0 <i class="fa-solid fa-star"></i></div>
+                    </div>
+                    <p style="margin-top:10px;">"The Cheesy Pizza was incredible! Delivery was fast and the food arrived piping hot."</p>
+                </div>
+            `;
+        }
+
+        function submitReview() {
+            const text = document.getElementById('reviewText').value;
+            if (selectedRating === 0 || text.trim() === "") {
+                alert("Please select a star rating and write a comment.");
+                return;
+            }
+
+            const newReviewData = {
+                name: "Israt",
+                date: "15 Jan 2026",
+                rating: selectedRating,
+                comment: text,
+                initials: "IS"
+            };
+
+            let allReviews = JSON.parse(localStorage.getItem('communityReviews')) || [];
+            allReviews.unshift(newReviewData);
+            localStorage.setItem('communityReviews', JSON.stringify(allReviews));
+
+            loadReviews();
+            document.getElementById('reviewText').value = "";
+            setRating(0);
+            closeModal();
+            alert("Review posted successfully!");
+        }
+
+        window.onload = loadReviews;
+    </script>
+</body>
+</html>

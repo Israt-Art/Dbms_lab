@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Food Express</title>
+    <link rel="stylesheet" href="admin_dashboaard_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-wrapper">
+        <aside class="admin-sidebar">
+            <div class="admin-profile"><i class="fa-solid fa-user-shield"></i><span>Admin Portal</span></div>
+            <nav>
+                <a href="#" class="active"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+                <a href="live_orders.html"><i class="fa-solid fa-truck-fast"></i> Live Orders</a>
+                
+                <a href="customers.html"><i class="fa-solid fa-users"></i> Customers</a>
+                <a href="reviews.html"><i class="fa-solid fa-star"></i> Reviews</a>
+                
+                <div class="nav-divider"></div>
+                
+                <a onclick="clearAllSystemData()" class="reset-btn">
+                    <i class="fa-solid fa-arrows-rotate"></i> Reset All Data
+                </a>
+                
+                <a href="homepage.html" class="logout">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
+            </nav>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header">
+                <h2>Business Overview</h2>
+                <div class="admin-date" id="dashDate">15 Jan 2026</div>
+            </header>
+
+            <section class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-icon income"><i class="fa-solid fa-wallet"></i></div>
+                    <div class="stat-info"><p>Total Revenue</p><h3 id="totalRevenueDisplay">0 TK</h3></div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon orders"><i class="fa-solid fa-box"></i></div>
+                    <div class="stat-info"><p>Active Orders</p><h3 id="activeOrdersDisplay">0</h3></div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon users"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-info"><p>Total Customers</p><h3 id="totalCustomersDisplay">0</h3></div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon rating"><i class="fa-solid fa-star"></i></div>
+                    <div class="stat-info"><p>Avg Rating</p><h3>4.8</h3></div>
+                </div>
+            </section>
+
+            <div class="dashboard-middle-content">
+                <div class="recent-activity">
+                    <div class="content-card-header">
+                        <h4>Recent Activity Feed</h4>
+                        <span class="live-indicator">LIVE</span>
+                    </div>
+                    <div class="activity-list" id="activityFeed"></div>
+                </div>
+
+                <div class="quick-glance">
+                    <div class="content-card-header">
+                        <h4>Popular Items</h4>
+                    </div>
+                    <div class="popular-items-list" id="popularItems"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function updateDashboard() {
+            const registered = JSON.parse(localStorage.getItem('registeredCustomers')) || [];
+            const orders = JSON.parse(localStorage.getItem('orderHistory')) || [];
+
+            // Update Revenue
+            let totalRevenue = 0;
+            orders.forEach(o => totalRevenue += parseInt(o.totalValue) || 0);
+
+            // Update Customer Count
+            const nameSet = new Set();
+            registered.forEach(c => { if(c.name) nameSet.add(c.name.toLowerCase().trim()); });
+            orders.forEach(o => {
+                const name = o.customer || o.user;
+                if(name) nameSet.add(name.toLowerCase().trim());
+            });
+
+            document.getElementById('totalRevenueDisplay').innerText = totalRevenue.toLocaleString() + " TK";
+            document.getElementById('activeOrdersDisplay').innerText = orders.length;
+            document.getElementById('totalCustomersDisplay').innerText = nameSet.size;
+
+            // Activity List Logic
+            const feed = document.getElementById('activityFeed');
+            feed.innerHTML = orders.length ? orders.slice(-3).reverse().map(o => `
+                <div class="activity-item">
+                    <div class="activity-dot"></div>
+                    <div class="activity-details">
+                        <p><strong>Order #${o.id || '4197'}</strong> was placed</p>
+                        <span>${o.customer || 'Guest'} • ${o.totalValue || '0 TK'}</span>
+                    </div>
+                </div>`).join('') : '<p style="color:#95a5a6; font-size:13px; padding:10px;">No recent activity.</p>';
+
+            // Popular Items Progress Bars
+            const popular = document.getElementById('popularItems');
+            const items = ["Cheesy Pizza", "Pasta Carbonara", "Choco Donut"];
+            popular.innerHTML = items.map(item => `
+                <div class="popular-row">
+                    <span>${item}</span>
+                    <div class="progress-bar"><div class="fill" style="width: ${Math.floor(Math.random()*40)+60}%"></div></div>
+                </div>`).join('');
+
+            document.getElementById('dashDate').innerText = new Date().toLocaleDateString('en-GB', {
+                day: '2-digit', month: 'short', year: 'numeric'
+            });
+        }
+
+        // Fixed Reset Function
+        function clearAllSystemData() {
+            if(confirm("DANGER: This will delete ALL revenue, orders, and customer records. Proceed?")) {
+                localStorage.clear(); // Clears everything including user data and history
+                updateDashboard();
+            }
+        }
+
+        window.onload = updateDashboard;
+    </script>
+</body>
+</html>

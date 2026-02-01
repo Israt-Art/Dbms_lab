@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal | Food Express</title>
+    <link rel="stylesheet" href="admin_login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="admin-container">
+        <div class="admin-card">
+            <div class="admin-header">
+                <div class="icon-circle">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <h1>ADMIN PORTAL</h1>
+                <p class="subtitle">Authorized Personnel Only</p>
+            </div>
+
+            <form action="admin_dashboard.html" class="admin-form">
+                <div class="input-group">
+                    <label>Manager ID</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-user-tie"></i>
+                        <input type="text" placeholder="e.g. Admin_01" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Security Password</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-key"></i>
+                        <input type="password" placeholder="Enter Password" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Security Key</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <input type="password" placeholder="Access Code" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="login-btn">Login to Dashboard</button>
+            </form>
+            
+            <div class="footer-links">
+                <a href="homepage.html" class="back-link">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Main Site
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

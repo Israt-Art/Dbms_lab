@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Directory | Food Express</title>
+    <link rel="stylesheet" href="customers_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Modern Header without Search Bar */
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #fff;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .reset-btn {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            box-shadow: 0 4px 6px rgba(255, 77, 77, 0.2);
+        }
+
+        .reset-btn:hover {
+            background: #e60000;
+            transform: translateY(-1px);
+        }
+
+        .user-avatar {
+            background: #2563eb;
+            color: white;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .status-badge {
+            background: #e6fffa;
+            color: #38b2ac;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* --- New Styles for View History Modal --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 25px;
+            border-radius: 12px;
+            width: 60%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .history-item {
+            border: 1px solid #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-modal {
+            font-size: 24px;
+            cursor: pointer;
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-wrapper">
+        <aside class="admin-sidebar">
+            <div class="admin-profile"><i class="fa-solid fa-user-shield"></i><span>Admin Portal</span></div>
+            <nav>
+                <a href="admin_dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+                <a href="live_orders.html"><i class="fa-solid fa-truck-fast"></i> Live Orders</a>
+                <a href="#" class="active"><i class="fa-solid fa-users"></i> Customers</a>
+                <a href="reviews.html"><i class="fa-solid fa-star"></i> Reviews</a>
+                <div class="nav-divider"></div>
+                <a href="homepage.html" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </nav>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header">
+                <h2 style="color: #2d3748;">Customer Directory</h2>
+                <button class="reset-btn" onclick="resetCustomerDirectory()">
+                    <i class="fa-solid fa-trash-can"></i> Reset Directory
+                </button>
+            </header>
+
+            <section class="customer-list-container" style="padding: 20px;">
+                <table class="customer-table" style="width: 100%; border-collapse: separate; border-spacing: 0 10px;">
+                    <thead>
+                        <tr style="text-align: left; color: #718096; font-size: 14px;">
+                            <th style="padding: 10px;">User</th>
+                            <th>Email/Contact</th>
+                            <th>Join Date</th>
+                            <th>Total Items</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customerBody"></tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <div id="historyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalUserName">Customer Order History</h3>
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+            </div>
+            <div id="historyContent">
+                </div>
+        </div>
+    </div>
+
+    <script>
+        function renderCustomers() {
+            const customers = JSON.parse(localStorage.getItem('registeredCustomers')) || [];
+            const orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+            const tbody = document.getElementById('customerBody');
+
+            if (customers.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:40px; color:#a0aec0;">No customer data available.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = customers.map(c => {
+                const userOrders = orderHistory.filter(order => order.customer === c.name || order.user === c.name);
+                
+                let totalItemsCount = 0;
+                userOrders.forEach(order => {
+                    if (order.items) {
+                        totalItemsCount += order.items.split(',').length;
+                    }
+                });
+
+                return `
+                    <tr style="background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+                        <td style="padding: 15px; border-radius: 10px 0 0 10px;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="user-avatar">${c.name.charAt(0).toUpperCase()}</div>
+                                <strong style="color: #2d3748;">${c.name}</strong>
+                            </div>
+                        </td>
+                        <td style="color: #4a5568;">${c.email || 'N/A'}</td>
+                        <td style="color: #718096;">${c.date || '15/01/2026'}</td>
+                        <td style="font-weight: 600; color: #2d3748;">
+                            ${totalItemsCount} Items <small style="font-weight: normal; color: #a0aec0;">(${userOrders.length} Orders)</small>
+                        </td>
+                        <td><span class="status-badge">Active</span></td>
+                        <td style="border-radius: 0 10px 10px 0;">
+                            <button onclick="viewHistory('${c.name}')" style="background: #f7fafc; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; color: #4a5568;">
+                                View History
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Function to show specific customer orders
+        function viewHistory(customerName) {
+            const orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+            const userOrders = orderHistory.filter(order => order.customer === customerName || order.user === customerName);
+            const modal = document.getElementById('historyModal');
+            const content = document.getElementById('historyContent');
+            
+            document.getElementById('modalUserName').innerText = `Order History for ${customerName}`;
+            
+            if (userOrders.length === 0) {
+                content.innerHTML = `<p style="text-align:center; color:#718096; padding:20px;">No previous orders found for this customer.</p>`;
+            } else {
+                content.innerHTML = userOrders.map(order => `
+                    <div class="history-item">
+                        <div>
+                            <strong style="color: #2563eb;">${order.id}</strong>
+                            <p style="margin: 5px 0; font-size: 14px; color: #4a5568;">Items: ${order.items || 'Menu Items'}</p>
+                            <small style="color: #a0aec0;">${order.time} | ${order.payment}</small>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-weight: bold; color: #2d3748;">${order.totalValue || 0} TK</div>
+                            <span style="font-size: 11px; text-transform: uppercase; font-weight: bold; color: #38b2ac;">${order.status}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById('historyModal').style.display = "none";
+        }
+
+        // Close modal if clicking outside the content area
+        window.onclick = function(event) {
+            const modal = document.getElementById('historyModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        function resetCustomerDirectory() {
+            if (confirm("Are you sure you want to clear all customer records?")) {
+                localStorage.removeItem('registeredCustomers');
+                renderCustomers();
+            }
+        }
+
+        window.onload = renderCustomers;
+    </script>
+</body>
+</html>

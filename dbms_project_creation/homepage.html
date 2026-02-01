@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Ordering System | Home</title>
+    <link rel="stylesheet" href="homepage_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="top-auth-bar">
+        <div class="container-wide">
+            <div class="auth-left">
+                <div class="auth-group">
+                    <a href="login.html" class="auth-link">
+                        <i class="fa-solid fa-user"></i> User Sign In
+                    </a>
+                    <span class="divider">|</span>
+                    <a href="admin_login.html" class="auth-link">
+                        <i class="fa-solid fa-user-shield"></i> Admin Sign In
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">FOOD ORDERING SYSTEM</div>
+            <div class="search-box">
+                <input type="text" placeholder="Search for products...">
+                <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="category-btn" onclick="window.location.href='category.html'">
+                <i class="fa-solid fa-bars"></i>
+                <span>Categories</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            
+            <ul class="nav-links">
+                <li class="active"><a href="homepage.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+
+            <div class="header-icons">
+                <div class="icon-item">
+                    <i class="fa-regular fa-heart"></i>
+                    <span class="badge">0</span>
+                </div>
+                <div class="icon-item" onclick="window.location.href='cart.html'">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="badge">0</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1350&q=80" alt="Fresh Food">
+        <div class="hero-overlay"></div>
+        <div class="hero-text">
+            <h1>Fresh & Healthy Food</h1>
+            <p>Order your favorite meals and fresh farm products online. Fast delivery directly to your home in Dhaka!</p>
+            <button class="shop-btn" onclick="window.location.href='products.html'">Shop Now</button>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-about">
+                <h3>About System</h3>
+                <p>We make it easy for you to order fresh and delicious food online. Variety of products at your fingertips with secure payment.</p>
+            </div>
+            <div class="footer-contact">
+                <h3>Contact Details</h3>
+                <p><i class="fa-solid fa-envelope"></i> support@foodorder.com</p>
+                <p><i class="fa-solid fa-phone"></i> +880 1234 567890</p>
+                <p><i class="fa-solid fa-location-dot"></i> 123 Food St, Dhaka, Bangladesh</p>
+            </div>
+            <div class="footer-social">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Food Ordering System. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>

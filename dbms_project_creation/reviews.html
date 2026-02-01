@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews & Feedback | Food Express</title>
+    <link rel="stylesheet" href="reviews_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="admin-wrapper">
+        <aside class="admin-sidebar">
+            <div class="admin-profile">
+                <i class="fa-solid fa-user-shield"></i>
+                <span>Admin Portal</span>
+            </div>
+            <nav>
+                <a href="admin_dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+                <a href="live_orders.html"><i class="fa-solid fa-truck-fast"></i> Live Orders</a>
+                
+                <a href="customers.html"><i class="fa-solid fa-users"></i> Customers</a>
+                <a href="#" class="active"><i class="fa-solid fa-star"></i> Reviews</a>
+                <div class="nav-divider"></div>
+                <a href="homepage.html" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </nav>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="header-info">
+                    <h2>Customer Reviews</h2>
+                    <p>Track ratings and feedback for your dishes</p>
+                </div>
+                <div class="avg-rating-pill">
+                    <i class="fa-solid fa-star"></i>
+                    <span>4.8 Avg Rating</span>
+                </div>
+            </header>
+
+            <section class="reviews-grid" id="reviewsContainer">
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function loadAdminReviews() {
+            const container = document.getElementById('reviewsContainer');
+            const savedReviews = JSON.parse(localStorage.getItem('communityReviews')) || [];
+
+            // If no reviews exist in local storage, show a placeholder message
+            if (savedReviews.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 50px; color: #666;">
+                        <i class="fa-solid fa-comment-slash" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
+                        <p>No customer reviews have been submitted yet.</p>
+                    </div>`;
+                return;
+            }
+
+            // Generate HTML only for reviews submitted by users
+            const htmlContent = savedReviews.map(rev => `
+                <div class="review-card">
+                    <div class="review-top">
+                        <div class="user-meta">
+                            <div class="user-initials" style="background:#1a2a6c; color:white; width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold;">
+                                ${rev.initials}
+                            </div>
+                            <div style="margin-left:10px;">
+                                <h4>${rev.name}</h4>
+                                <p>${rev.date}</p>
+                            </div>
+                        </div>
+                        <div class="stars" style="color: #f1c40f;">
+                            ${Array(rev.rating).fill('<i class="fa-solid fa-star"></i>').join('')}
+                            ${Array(5 - rev.rating).fill('<i class="fa-regular fa-star"></i>').join('')}
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <p>"${rev.comment}"</p>
+                    </div>
+                    <div class="review-footer">
+                        <span class="tag">User Feedback</span>
+                        <button class="reply-btn"><i class="fa-solid fa-reply"></i> Reply</button>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = htmlContent;
+        }
+
+        // Initialize the load function when the page opens
+        window.onload = loadAdminReviews;
+    </script>
+</body>
+</html>

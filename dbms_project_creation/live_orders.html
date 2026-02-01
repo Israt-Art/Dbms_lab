@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Orders | Food Express</title>
+    <link rel="stylesheet" href="live_orders_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-wrapper">
+        <aside class="admin-sidebar">
+            <div class="admin-profile"><i class="fa-solid fa-user-shield"></i><span>Admin Portal</span></div>
+            <nav>
+                <a href="admin_dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+                <a href="#" class="active"><i class="fa-solid fa-truck-fast"></i> Live Orders</a>
+                
+                <a href="customers.html"><i class="fa-solid fa-users"></i> Customers</a>
+                <a href="reviews.html"><i class="fa-solid fa-star"></i> Reviews</a>
+                <div class="nav-divider"></div>
+                <a href="homepage.html" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </nav>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header">
+                <div>
+                    <h2>Live Orders Queue</h2>
+                    <p>Real-time incoming customer requests</p>
+                </div>
+                <button class="refresh-btn" onclick="renderOrders()"><i class="fa-solid fa-rotate"></i> Refresh List</button>
+            </header>
+
+            <section class="orders-table-container">
+                <table class="live-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Time</th>
+                            <th>Customer</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderTableBody"></tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function renderOrders() {
+            const history = JSON.parse(localStorage.getItem('orderHistory')) || [];
+            const tbody = document.getElementById('orderTableBody');
+            
+            if (history.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:20px; color:#888;">No active orders yet.</td></tr>';
+                return;
+            }
+
+            // We reverse the list so the newest orders appear at the top
+            tbody.innerHTML = history.slice().reverse().map(order => `
+                <tr>
+                    <td class="order-id" style="font-weight:bold; color: #2563eb;">${order.id}</td>
+                    <td>${order.time}</td>
+                    <td>${order.customer}</td>
+                    <td>${order.totalValue ? order.totalValue : 0} TK</td>
+                    <td>${order.payment}</td>
+                    <td><span class="status-pill ${order.status.toLowerCase().replace(/\s/g, '-')}">${order.status}</span></td>
+                    <td>
+                        ${order.status !== 'Delivered' 
+                            ? `<button class="update-btn" onclick="updateStatus('${order.id}')">Next Stage</button>` 
+                            : `<i class="fa-solid fa-check-double" style="color:green"></i> Completed`}
+                    </td>
+                </tr>
+            `).join('');
+        }
+function updateStatus(id) {
+    // 1. Get the latest data from localStorage
+    let history = JSON.parse(localStorage.getItem('orderHistory')) || [];
+    
+    // 2. Define the exact path an order takes
+    const stages = ["Processing", "Out for Delivery", "Delivered"];
+    
+    // 3. Find the specific order by its ID (e.g., #1173)
+    const idx = history.findIndex(o => o.id === id);
+    
+    if (idx > -1) {
+        let currentStatus = history[idx].status;
+        let currentIdx = stages.indexOf(currentStatus);
+        
+        // 4. If it's not at the final stage yet, move it forward
+        if (currentIdx < stages.length - 1) {
+            history[idx].status = stages[currentIdx + 1];
+            
+            // 5. Save the new status back to memory
+            localStorage.setItem('orderHistory', JSON.stringify(history));
+            
+            // 6. Refresh the table so the user sees the change immediately
+            renderOrders();
+        }
+    }
+}
+
+        // Initialize table on page load
+        window.onload = renderOrders;
+    </script>
+</body>
+</html>
